@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Event\MyCustomEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -25,12 +26,21 @@ final class DefaultController extends AbstractController
 
     #[Route('/cache')]
     public function demoCache(
+        Request $request,
         CacheInterface $cache,
     ): Response {
+        $forceRecompute = $request->query->has('force');
+        // ajouter des éléments pour garantir l'unicité de l'identifiant de l'élément de cache
+        $cacheId = 'demo_cache.'.$request->getLocale();
+
+        if ($forceRecompute) {
+            $cache->delete($cacheId);
+        }
+
         $stopWatch = new Stopwatch();
         $stopWatch->start('computation');
-        $data = $cache->get('demo_cache', function (ItemInterface $item) {
-            $item->expiresAfter(30);
+        $data = $cache->get($cacheId, function (ItemInterface $item) {
+            $item->expiresAfter(600);
             sleep(2);
 
             return 42;
