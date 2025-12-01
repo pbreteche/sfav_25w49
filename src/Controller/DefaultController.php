@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Route('/')]
@@ -27,7 +27,7 @@ final class DefaultController extends AbstractController
     #[Route('/cache')]
     public function demoCache(
         Request $request,
-        CacheInterface $cache,
+        TagAwareCacheInterface $cache,
     ): Response {
         $forceRecompute = $request->query->has('force');
         // ajouter des éléments pour garantir l'unicité de l'identifiant de l'élément de cache
@@ -40,12 +40,18 @@ final class DefaultController extends AbstractController
         $stopWatch = new Stopwatch();
         $stopWatch->start('computation');
         $data = $cache->get($cacheId, function (ItemInterface $item) {
-            $item->expiresAfter(600);
+            $item
+                ->expiresAfter(600)
+                ->tag(['website', 'post'])
+            ;
             sleep(2);
 
             return 42;
         });
         $duration = $stopWatch->stop('computation')->getDuration();
+
+        // supprimer l'ensemble des éléments désignés par le tag
+        $cache->invalidateTags(['post']);
 
         return $this->render('default/cache.html.twig', [
             'answer' => $data,
