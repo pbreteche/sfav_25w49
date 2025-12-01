@@ -6,7 +6,7 @@
 <div class="example-wrapper">
     <h1>Hello world! ✅</h1>
     <div>
-        {{ dump(app.locale) }}
+        {{ app.locale | language_name }}
     </div>
 </div>
 {% endblock %}
