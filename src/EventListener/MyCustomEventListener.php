@@ -16,6 +16,6 @@ readonly class MyCustomEventListener
     #[AsEventListener(event: MyCustomEvent::NAME)]
     public function onMyCustomEvent(MyCustomEvent $event): void
     {
-        $this->logger->info('Événement');
+        $this->logger->info('Événement '.MyCustomEvent::NAME);
     }
 }
