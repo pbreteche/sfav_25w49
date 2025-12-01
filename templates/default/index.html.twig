@@ -3,22 +3,34 @@
 {% block title %}Hello DefaultController!{% endblock %}
 
 {% block body %}
+    <style>
+        output {
+            margin: .5em 0;
+            display: block;
+            background-color: #402;
+            color: #ddd;
+            font-family: monospace;
+            padding: 1em;
+        }
+    </style>
+
 <div class="example-wrapper">
-    <h1>Hello world! ✅</h1>
+    <h1>{{ 'hello_world' | trans }} 👋</h1>
     <div>
         <form>
-            <div>
-                <label for="locale">Langue</label>
-                <select name="_locale" id="locale">
-                    {% for locale in ['en', 'fr', 'es', 'de'] %}
-                    <option value="{{ locale }}">{{ locale | language_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button>Sélectionner</button>
+            <label for="locale">Langue</label>
+            <select name="_locale" id="locale">
+                <option value="">--</option>
+                {% for locale in ['en', 'fr', 'es', 'de'] %}
+                <option value="{{ locale }}">{{ locale | language_name }}</option>
+                {% endfor %}
+            </select>
+            <button aria-label="Sélectionner">✅</button>
         </form>
 
-        {{ app.locale | language_name }}
+        <output>
+            {{ app.locale | language_name }}
+        </output>
     </div>
 </div>
 {% endblock %}
