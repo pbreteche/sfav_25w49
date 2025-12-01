@@ -11,6 +11,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Route('/')]
 final class DefaultController extends AbstractController
@@ -28,6 +29,7 @@ final class DefaultController extends AbstractController
     public function demoCache(
         Request $request,
         TagAwareCacheInterface $cache,
+        HttpClientInterface $httpClient,
     ): Response {
         $forceRecompute = $request->query->has('force');
         // ajouter des éléments pour garantir l'unicité de l'identifiant de l'élément de cache
@@ -39,12 +41,14 @@ final class DefaultController extends AbstractController
 
         $stopWatch = new Stopwatch();
         $stopWatch->start('computation');
-        $data = $cache->get($cacheId, function (ItemInterface $item) {
+        // utilisation d'un service dans une fonction de rappel de calcul de cache
+        $data = $cache->get($cacheId, function (ItemInterface $item) use ($httpClient) {
             $item
                 ->expiresAfter(600)
                 ->tag(['website', 'post'])
             ;
             sleep(2);
+            $httpClient->request('GET', 'https://dawan.fr');
 
             return 42;
         });
