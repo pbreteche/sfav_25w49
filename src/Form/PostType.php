@@ -23,10 +23,7 @@ class PostType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('state')
-            ->add('tags', EntityType::class, [
-                'class' => Tag::class,
-                'choice_label' => 'id',
-                'multiple' => true,
+            ->add('tags', ReferenceTagType::class, [
                 'required' => false,
             ])
             ->add('siren', SirenType::class, [
@@ -37,9 +34,6 @@ class PostType extends AbstractType
             ->add('duration', DurationType::class, [
                 'mapped' => false,
                 'required' => false,
-            ])
-            ->add('tag', ReferenceTagType::class, [
-                'mapped' => false,
             ])
         ;
     }

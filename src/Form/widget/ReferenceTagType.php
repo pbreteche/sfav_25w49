@@ -8,6 +8,7 @@ use App\Entity\Tag;
 use App\Repository\TagRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ReferenceTagType extends AbstractType implements DataTransformerInterface
 {
     public function __construct(
-        private TagRepository $tagRepository,
+        private readonly TagRepository $tagRepository,
     ) {
     }
 
@@ -28,6 +29,7 @@ class ReferenceTagType extends AbstractType implements DataTransformerInterface
     {
         $resolver->setDefaults([
             'data_class' => Tag::class,
+            'multiple' => true,
         ]);
     }
 
@@ -38,17 +40,31 @@ class ReferenceTagType extends AbstractType implements DataTransformerInterface
 
     public function transform(mixed $value): ?string
     {
-        if ($value instanceof Tag) {
-            return $value->getName();
+        if (empty($value)) {
+            return null;
         }
 
-        return null;
+        $viewArrayData = [];
+        foreach ($value as $tag) {
+            if (!$value instanceof Tag) {
+                throw new TransformationFailedException();
+            }
+            $viewArrayData[] = $tag->getName();
+        }
+
+        return implode(' ', $viewArrayData);
     }
 
-    public function reverseTransform(mixed $value): mixed
+    public function reverseTransform(mixed $value): array
     {
-        $existingTag =  $this->tagRepository->findOneBy(['name' => $value]);
+        $arrayNames = array_unique(explode(' ', $value));
 
-        return $existingTag ?? (new Tag())->setName($value);
+        $tags = [];
+        foreach ($arrayNames as $name) {
+            $existingTag = $this->tagRepository->findOneBy(['name' => $name]);
+            $tags[] = $existingTag ?? (new Tag())->setName($name);
+        }
+
+        return $tags;
     }
 }
