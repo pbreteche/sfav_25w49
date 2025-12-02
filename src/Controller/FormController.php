@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DataType\Duration;
 use App\Entity\Post;
 use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,10 +21,11 @@ class FormController extends AbstractController
     ): Response {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
+        $form->get('duration')->setData(new Duration(450));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            dump($form->get('duration')->getData());
         }
 
         return $this->render('form/index.html.twig', [

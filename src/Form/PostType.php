@@ -26,13 +26,16 @@ class PostType extends AbstractType
                 'class' => Tag::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'required' => false,
             ])
             ->add('siren', SirenType::class, [
                 'mapped' => false,
                 'help' => 'Mettre le siret de la société à facturer.',
+                'required' => false,
             ])
             ->add('duration', DurationType::class, [
                 'mapped' => false,
+                'required' => false,
             ])
         ;
     }
