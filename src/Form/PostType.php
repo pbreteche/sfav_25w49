@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Post;
 use App\Entity\Tag;
 use App\Form\widget\DurationType;
+use App\Form\widget\ReferenceTagType;
 use App\Form\widget\SirenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -36,6 +37,9 @@ class PostType extends AbstractType
             ->add('duration', DurationType::class, [
                 'mapped' => false,
                 'required' => false,
+            ])
+            ->add('tag', ReferenceTagType::class, [
+                'mapped' => false,
             ])
         ;
     }

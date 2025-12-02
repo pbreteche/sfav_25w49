@@ -25,7 +25,7 @@ class FormController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->get('duration')->getData());
+            dump($form->get('tag')->getData());
         }
 
         return $this->render('form/index.html.twig', [
