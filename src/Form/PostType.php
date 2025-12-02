@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\Tag;
+use App\Form\widget\DurationType;
 use App\Form\widget\SirenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -29,6 +30,9 @@ class PostType extends AbstractType
             ->add('siren', SirenType::class, [
                 'mapped' => false,
                 'help' => 'Mettre le siret de la société à facturer.',
+            ])
+            ->add('duration', DurationType::class, [
+                'mapped' => false,
             ])
         ;
     }
