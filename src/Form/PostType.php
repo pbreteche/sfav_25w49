@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\Tag;
+use App\Form\widget\SirenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,9 +17,6 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
             ->add('publishedAt', null, [
                 'widget' => 'single_text',
             ])
@@ -27,6 +25,10 @@ class PostType extends AbstractType
                 'class' => Tag::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+            ])
+            ->add('siren', SirenType::class, [
+                'mapped' => false,
+                'help' => 'Mettre le siret de la société à facturer.',
             ])
         ;
     }

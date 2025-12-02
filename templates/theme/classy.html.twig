@@ -4,3 +4,8 @@
     {% set row_attr = row_attr|merge({class: row_attr.class|default('')|split(' ')|merge([name])|join(' ')|trim}) %}
     {{ parent() }}
 {%- endblock form_row -%}
+
+{%- block siren_help -%}
+    <p>Voir : <a href="https://www.insee.fr/fr/metadonnees/definition/c2047">Définition sur insee.fr</a></p>
+    {{ form_help(form) }}
+{%- endblock siren_help -%}
