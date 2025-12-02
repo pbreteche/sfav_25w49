@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    <div class="body-row">
+        {{ form_label(form.body) }}
+        {{ form_help(form.body) }}
+        {{ form_errors(form.body) }}
+        {{ form_widget(form.body) }}
+    </div>
+    {{ form_rest(form) }}
+    <button>Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}
