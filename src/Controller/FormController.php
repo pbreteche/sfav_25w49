@@ -20,6 +20,7 @@ class FormController extends AbstractController
         Request $request,
     ): Response {
         $post = new Post();
+        $post->setPublishedAt(new \DateTimeImmutable('today 17:30:41'));
         $form = $this->createForm(PostType::class, $post);
         $form->get('duration')->setData(new Duration(450));
         $form->handleRequest($request);

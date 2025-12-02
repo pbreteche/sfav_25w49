@@ -9,7 +9,10 @@ use App\Form\widget\ReferenceTagType;
 use App\Form\widget\SirenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PostSetDataEvent;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostType extends AbstractType
@@ -19,14 +22,19 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
-            ->add('publishedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('state')
-            ->add('tags', ReferenceTagType::class, [
-                'required' => false,
-            ])
-            ->add('siren', SirenType::class, [
+        ;
+        if ($options['extended']) {
+            $builder
+                ->add('publishedAt', null, [
+                    'widget' => 'single_text',
+                ])
+                ->add('state')
+                ->add('tags', ReferenceTagType::class, [
+                    'required' => false,
+                ])
+            ;
+        }
+        $builder->add('siren', SirenType::class, [
                 'mapped' => false,
                 'help' => 'Mettre le siret de la société à facturer.',
                 'required' => false,
@@ -35,6 +43,7 @@ class PostType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
+            ->addEventListener(FormEvents::POST_SET_DATA, [$this, 'onPostSetData'])
         ;
     }
 
@@ -42,6 +51,23 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Post::class,
+            'extended' => true,
         ]);
+    }
+
+    public function onPostSetData(PostSetDataEvent $event): void
+    {
+        $data = $event->getData();
+        if (!$data instanceof Post) {
+            throw new UnexpectedTypeException($data, Post::class);
+        }
+
+        if ($data->getPublishedAt()) {
+            $form = $event->getForm();
+            $form->add('publishedAt', null, [
+                'disabled' => true,
+                'widget' => 'single_text',
+            ]);
+        }
     }
 }
