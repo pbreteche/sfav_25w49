@@ -12,14 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/messenger')]
 class MessengerController extends AbstractController
 {
     #[Route]
-    public function index(MailerInterface $mailer): Response
-    {
+    public function index(
+        MailerInterface $mailer,
+        string $projectDir,
+    ): Response {
         $message = new Email();
         $message
             ->from('noreply@example.com')
@@ -47,6 +51,11 @@ class MessengerController extends AbstractController
                 ],
             ])
             ->attach($ressource, 'recipient_list.csv', 'text/csv')
+            ->addPart(new DataPart(
+                new File(sprintf('%s/assets/images/symfony_logo.svg', $projectDir)),
+                'logo',
+                'image/svg+xml',
+            ))
         ;
         $mailer->send($message);
 
