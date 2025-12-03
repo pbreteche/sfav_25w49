@@ -28,6 +28,10 @@ class MessengerController extends AbstractController
             ->text('Hello, here is your invitation!')
             ->html('<p>Conference invitation</p>');
 
+        $ressource = fopen('php://temp', 'rb+');
+        fputcsv($ressource, ['Name', 'Email']);
+        fputcsv($ressource, ['John', 'Doe']);
+
         $message = new TemplatedEmail();
         $message
             ->from('noreply@example.com')
@@ -42,6 +46,7 @@ class MessengerController extends AbstractController
                     'date' => new \DateTimeImmutable('+1 month midnight'),
                 ],
             ])
+            ->attach($ressource, 'recipient_list.csv', 'text/csv')
         ;
         $mailer->send($message);
 
