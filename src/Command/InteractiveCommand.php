@@ -28,9 +28,11 @@ class InteractiveCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $progressBar = new ProgressBar($output, 3);
+        $pbSection = $output->section();
+        $qSection = $output->section();
+        $progressBar = new ProgressBar($pbSection, 3);
         $progressBar->setMaxSteps(3);
+        $io = new SymfonyStyle($input, $qSection);
         $question = new Question('Sélectionner un tag');
         $question->setAutocompleterCallback(fn (string $value) => $this->tagRepository->findNamesStartingBy($value));
         $tagName = $io->askQuestion($question);
