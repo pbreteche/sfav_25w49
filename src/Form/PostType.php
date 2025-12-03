@@ -39,10 +39,7 @@ class PostType extends AbstractType
                 'help' => 'Mettre le siret de la société à facturer.',
                 'required' => false,
             ])
-            ->add('duration', DurationType::class, [
-                'mapped' => false,
-                'required' => false,
-            ])
+            ->add('duration')
             ->addEventListener(FormEvents::POST_SET_DATA, [$this, 'onPostSetData'])
         ;
     }

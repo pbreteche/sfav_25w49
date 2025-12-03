@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use App\DataType\Duration;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -23,7 +26,7 @@ class Post
     private ?string $body = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
@@ -36,6 +39,9 @@ class Post
      */
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     private Collection $tags;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    private Duration $duration;
 
     public function __construct()
     {
@@ -121,6 +127,18 @@ class Post
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getDuration(): Duration
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(Duration $duration): static
+    {
+        $this->duration = $duration;
 
         return $this;
     }
