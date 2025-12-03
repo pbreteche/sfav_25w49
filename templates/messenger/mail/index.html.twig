@@ -1,0 +1,6 @@
+<h1>Invitation à l'événement {{ conference.name }}</h1>
+
+<p>
+    Bonjour {{ recipient_name }},<br>
+    Vous êtes invité le {{ conference.date | format_date('short') }} à l'événement.
+</p>

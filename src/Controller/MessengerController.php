@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\PostState;
 use App\Message\DataExtraction;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -26,8 +27,23 @@ class MessengerController extends AbstractController
             ->subject('Conference invitation')
             ->text('Hello, here is your invitation!')
             ->html('<p>Conference invitation</p>');
-        $mailer->send($message);
 
+        $message = new TemplatedEmail();
+        $message
+            ->from('noreply@example.com')
+            ->to('recipient@example.com')
+            ->subject('Conference invitation')
+            ->textTemplate('messenger/mail/index.txt.twig')
+            ->htmlTemplate('messenger/mail/index.html.twig')
+            ->context([
+                'recipient_name' => 'John Doe',
+                'conference' => [
+                    'name' => 'Formation Symfony',
+                    'date' => new \DateTimeImmutable('+1 month midnight'),
+                ],
+            ])
+        ;
+        $mailer->send($message);
 
         return $this->render('messenger/index.html.twig');
     }
