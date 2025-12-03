@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\PostState;
+use App\Message\DataExtraction;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -27,5 +30,14 @@ class MessengerController extends AbstractController
 
 
         return $this->render('messenger/index.html.twig');
+    }
+
+    #[Route('/extract-data')]
+    public function extractData(
+        MessageBusInterface $messageBus,
+    ): Response {
+        $messageBus->dispatch(new DataExtraction('post', ['state' => PostState::Published]));
+
+        return new Response();
     }
 }
