@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
@@ -38,7 +39,7 @@ class MessengerController extends AbstractController
 
         $message = new TemplatedEmail();
         $message
-            ->from('noreply@example.com')
+            ->from(new Address('noreply@example.com', 'no reply'))
             ->to('recipient@example.com')
             ->subject('Conference invitation')
             ->textTemplate('messenger/mail/index.txt.twig')
