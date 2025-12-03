@@ -25,8 +25,8 @@ class MessengerController extends AbstractController
         MailerInterface $mailer,
         string $projectDir,
     ): Response {
-        $message = new Email();
-        $message
+        $message1 = new Email();
+        $message1
             ->from('noreply@example.com')
             ->to('recipient@example.com')
             ->subject('Conference invitation')
@@ -37,8 +37,8 @@ class MessengerController extends AbstractController
         fputcsv($ressource, ['Name', 'Email']);
         fputcsv($ressource, ['John', 'Doe']);
 
-        $message = new TemplatedEmail();
-        $message
+        $message2 = new TemplatedEmail();
+        $message2
             ->from(new Address('noreply@example.com', 'no reply'))
             ->to('recipient@example.com')
             ->subject('Conference invitation')
@@ -58,7 +58,7 @@ class MessengerController extends AbstractController
                 'image/svg+xml',
             ))
         ;
-        $mailer->send($message);
+        $mailer->send($message2);
 
         return $this->render('messenger/index.html.twig');
     }
