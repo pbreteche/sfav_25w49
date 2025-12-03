@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Repository\TagRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -28,19 +29,23 @@ class InteractiveCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $progressBar = new ProgressBar($output, 3);
+        $progressBar->setMaxSteps(3);
         $question = new Question('Sélectionner un tag');
         $question->setAutocompleterCallback(fn (string $value) => $this->tagRepository->findNamesStartingBy($value));
         $tagName = $io->askQuestion($question);
-
         $io->text('choix du tag:'.$tagName);
+        $progressBar->advance();
 
         // Valeur par défaut
         $question = new Question('votre plat préféré', 'pizza');
         $recipe = $io->askQuestion($question);
         $io->text($recipe);
+        $progressBar->advance();
 
         $question = new ConfirmationQuestion('Souhaitez continuer ?');
         $continue = $io->askQuestion($question);
+        $progressBar->finish();
         if (!$continue) {
             return Command::FAILURE;
         }
