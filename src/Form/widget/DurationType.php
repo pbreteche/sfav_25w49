@@ -61,6 +61,7 @@ class DurationType extends AbstractType implements DataMapperInterface
             'data_class' => Duration::class,
             'required' => true,
             'compound' => true,
+            'empty_data' => null,
         ]);
     }
 

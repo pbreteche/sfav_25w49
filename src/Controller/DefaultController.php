@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Event\MyCustomEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,9 @@ final class DefaultController extends AbstractController
         $event = new MyCustomEvent('Hello', 'world');
         $eventDispatcher->dispatch($event, MyCustomEvent::NAME);
 
-        return $this->render('default/index.html.twig');
+        return $this->render('default/index.html.twig', [
+            'post' => new Post(),
+        ]);
     }
 
     #[Route('/cache')]

@@ -57,6 +57,10 @@ class ReferenceTagType extends AbstractType implements DataTransformerInterface
 
     public function reverseTransform(mixed $value): array
     {
+        if (!$value) {
+            return [];
+        }
+
         $arrayNames = array_unique(explode(' ', $value));
 
         $tags = [];
