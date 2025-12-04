@@ -26,8 +26,10 @@
     <div data-controller="signature">
         <canvas data-signature-target="canvas" height="120" width="240" style="border: 1px solid black"></canvas>
         <div class="actions">
-            <button data-action="click->signature#clear" class="btn btn-danger">Effacer</button>
+            <button data-action="signature#clear" class="btn btn-danger">Effacer</button>
+            <button data-action="signature#commit" class="btn btn-success">Valider</button>
         </div>
+        <div data-signature-target="output"></div>
     </div>
 
     <div class="logo"><img src="{{ asset('/images/symfony_logo.svg') }}" alt="Symfony logo"></div>
