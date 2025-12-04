@@ -1,4 +1,4 @@
-<div>
+<div{{ attributes }}>
     <form>
         <label for="locale">Langue</label>
         <select name="_locale" id="locale">
@@ -11,6 +11,6 @@
     </form>
 
     <output>
-        {{ app.locale | language_name }}
+        {{ locale | language_name }}
     </output>
 </div>

@@ -15,12 +15,16 @@
             font-family: monospace;
             padding: 1em;
         }
+
+        .main-selector {
+            border: 2px dashed lightblue;
+        }
     </style>
 
 <div class="example-wrapper">
     <h1>{{ 'hello_world' | trans }} 👋</h1>
     <div class="logo"><img src="{{ asset('/images/symfony_logo.svg') }}" alt="Symfony logo"></div>
-    <twig:LocalSelector />
+    <twig:LocalSelector locale="en" class="main-selector" />
     <twig:TagShortcuts />
 </div>
 {% endblock %}
