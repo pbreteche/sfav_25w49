@@ -23,6 +23,10 @@
 
 <div class="example-wrapper">
     <h1>{{ 'hello_world' | trans }} 👋</h1>
+    <div data-controller="signature">
+        <canvas data-signature-target="canvas" height="120" width="240" style="border: 1px solid black"></canvas>
+    </div>
+
     <div class="logo"><img src="{{ asset('/images/symfony_logo.svg') }}" alt="Symfony logo"></div>
     <twig:LocalSelector locale="en" class="main-selector" />
     <twig:TagShortcuts />
