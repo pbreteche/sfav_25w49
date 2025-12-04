@@ -1,0 +1,10 @@
+body {
+    h1 {
+        background-color: var(--brand-color);
+    }
+
+    .logo {
+        background-image: url("../../images/symfony_logo.svg");
+        background-repeat: no-repeat;
+    }
+}

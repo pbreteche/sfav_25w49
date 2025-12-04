@@ -1509,6 +1509,22 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     generate_final_classes?: bool, // Default: true
  *     generate_final_entities?: bool, // Default: false
  * }
+ * @psalm-type SensiolabsMinifyConfig = array{
+ *     asset_mapper?: bool|array{ // AssetMapper compiler settings
+ *         enabled?: bool, // Default: true
+ *         types?: array{ // Asset types to minify
+ *             css?: bool, // Default: true
+ *             js?: bool, // Default: true
+ *         },
+ *         ignore_paths?: list<scalar|null>,
+ *         ignore_vendor?: bool, // Exclude vendor assets from minification // Default: true
+ *     },
+ *     minify?: array{ // Minify settings
+ *         local_binary?: scalar|null, // Path to the local binary (use "auto" for automatic detection) // Default: false
+ *         download_binary?: bool, // Download the binary from GitHub (defaults to "true" in debug mode) // Default: "%kernel.debug%"
+ *         download_directory?: scalar|null, // Directory to store the downloaded binary // Default: "%kernel.project_dir%/var/minify"
+ *     },
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1522,6 +1538,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     twig_extra?: TwigExtraConfig,
  *     security?: SecurityConfig,
  *     monolog?: MonologConfig,
+ *     sensiolabs_minify?: SensiolabsMinifyConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1538,6 +1555,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
  *         maker?: MakerConfig,
+ *         sensiolabs_minify?: SensiolabsMinifyConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1552,6 +1570,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig_extra?: TwigExtraConfig,
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
+ *         sensiolabs_minify?: SensiolabsMinifyConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1567,6 +1586,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig_extra?: TwigExtraConfig,
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
+ *         sensiolabs_minify?: SensiolabsMinifyConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

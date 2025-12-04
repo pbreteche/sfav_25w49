@@ -2,6 +2,9 @@
 
 {% block title %}Hello DefaultController!{% endblock %}
 
+{# Il n'est possible d'appeler la fonction import map qu'une seule fois dans une page #}
+{% block importmap %}{{ importmap(['app', 'form']) }}{% endblock %}
+
 {% block body %}
     <style>
         output {
@@ -16,6 +19,7 @@
 
 <div class="example-wrapper">
     <h1>{{ 'hello_world' | trans }} 👋</h1>
+    <div class="logo"><img src="{{ asset('/images/symfony_logo.svg') }}" alt="Symfony logo"></div>
     <div>
         <form>
             <label for="locale">Langue</label>

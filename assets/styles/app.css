@@ -1,3 +1,6 @@
-body {
-    background-color: skyblue;
-}
+@import "./page/homepage.css";
+@import "./page/front-office.css";
+
+@import "./component/button.css";
+@import "./component/card.css";
+@import "./component/menu.css";

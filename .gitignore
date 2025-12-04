@@ -20,3 +20,7 @@
 ###< symfony/asset-mapper ###
 
 .docker/
+
+###> sensiolabs/minify-bundle ###
+/var/minify/
+###< sensiolabs/minify-bundle ###
