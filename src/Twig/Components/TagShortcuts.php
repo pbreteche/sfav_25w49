@@ -3,12 +3,17 @@
 namespace App\Twig\Components;
 
 use App\Repository\TagRepository;
-use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
 
-#[AsTwigComponent]
+#[AsLiveComponent]
 final class TagShortcuts
 {
-    private array $tags;
+    use DefaultActionTrait;
+    #[LiveProp(writable: true)]
+    public ?string $query = null;
+    private array $tags = [];
     private bool $isInitialized = false;
 
     public function __construct(
@@ -18,8 +23,8 @@ final class TagShortcuts
 
     public function getTags()
     {
-        if (!$this->isInitialized) {
-            $this->tags = $this->tagRepository->findAll();
+        if (!$this->isInitialized && $this->query) {
+            $this->tags = $this->tagRepository->findNamesStartingBy($this->query);
             $this->isInitialized = true;
         }
 

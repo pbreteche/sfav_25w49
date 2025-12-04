@@ -1,7 +1,11 @@
 <div{{ attributes }}>
+    <div>
+        <label for="tag-shortcuts-query">tags</label>
+        <input id="tag-shortcuts-query" type="search" name="query" data-model="query">
+    </div>
     <ul>
     {% for tag in this.tags %}
-        <li>{{ tag.name }}</li>
+        <li>{{ tag }}</li>
     {% endfor %}
     </ul>
 </div>
