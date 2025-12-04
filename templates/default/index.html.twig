@@ -23,11 +23,12 @@
 
 <div class="example-wrapper">
     <h1>{{ 'hello_world' | trans }} 👋</h1>
-    <div data-controller="signature">
+    <div data-controller="signature" data-signature-floor-value="50">
         <canvas data-signature-target="canvas" height="120" width="240" style="border: 1px solid black"></canvas>
         <div class="actions">
             <button data-action="signature#clear" class="btn btn-danger">Effacer</button>
-            <button data-action="signature#commit" class="btn btn-success">Valider</button>
+            <button data-signature-target="submitButton" data-action="signature#commit"
+                    class="btn btn-success" disabled>Valider</button>
         </div>
         <div data-signature-target="output"></div>
     </div>
