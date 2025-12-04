@@ -6,15 +6,23 @@ use App\Repository\TagRepository;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent]
-final readonly class TagShortcuts
+final class TagShortcuts
 {
+    private array $tags;
+    private bool $isInitialized = false;
+
     public function __construct(
-        private TagRepository $tagRepository,
+        private readonly TagRepository $tagRepository,
     ) {
     }
 
     public function getTags()
     {
-        return $this->tagRepository->findAll();
+        if (!$this->isInitialized) {
+            $this->tags = $this->tagRepository->findAll();
+            $this->isInitialized = true;
+        }
+
+        return $this->tags;
     }
 }
