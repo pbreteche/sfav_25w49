@@ -42,4 +42,7 @@ return [
     'signature_pad' => [
         'version' => '5.1.3',
     ],
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
 ];
