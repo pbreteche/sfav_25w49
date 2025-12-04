@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use App\DataType\Duration;
+use App\DoctrineType\DurationType;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
@@ -45,7 +45,7 @@ class Post
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     private Collection $tags;
 
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[ORM\Column(type: DurationType::TYPE, nullable: true)]
     private ?Duration $duration = null;
 
     public function __construct()
