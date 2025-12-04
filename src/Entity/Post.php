@@ -20,6 +20,7 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -29,6 +30,10 @@ class Post
     private ?\DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\When(
+        expression: 'this.getState() !== enum("App\\\\Entity\\\\PostState::Draft")',
+        constraints: [new Assert\NotNull()],
+    )]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\Column(enumType: PostState::class)]
@@ -40,8 +45,8 @@ class Post
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     private Collection $tags;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private Duration $duration;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?Duration $duration = null;
 
     public function __construct()
     {
@@ -131,12 +136,12 @@ class Post
         return $this;
     }
 
-    public function getDuration(): Duration
+    public function getDuration(): ?Duration
     {
         return $this->duration;
     }
 
-    public function setDuration(Duration $duration): static
+    public function setDuration(?Duration $duration): static
     {
         $this->duration = $duration;
 
