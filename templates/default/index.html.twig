@@ -26,5 +26,9 @@
     <div class="logo"><img src="{{ asset('/images/symfony_logo.svg') }}" alt="Symfony logo"></div>
     <twig:LocalSelector locale="en" class="main-selector" />
     <twig:TagShortcuts />
+    <twig:Card title="Composant avec contenu HTML" image="images/symfony_logo.svg">
+        <p>Du contenu HTML qui sera passé au composant.</p>
+        <p>Il pourra être accédé via le block "content".</p>
+    </twig:Card>
 </div>
 {% endblock %}

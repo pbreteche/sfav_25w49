@@ -1,0 +1,7 @@
+<article{{ attributes }}>
+    <h1>{{ this.title }}</h1>
+    {% if this.image %}
+    <div><img src="{{ asset(this.image) }}"></div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</article>
