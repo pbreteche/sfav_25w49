@@ -20,21 +20,6 @@
 <div class="example-wrapper">
     <h1>{{ 'hello_world' | trans }} 👋</h1>
     <div class="logo"><img src="{{ asset('/images/symfony_logo.svg') }}" alt="Symfony logo"></div>
-    <div>
-        <form>
-            <label for="locale">Langue</label>
-            <select name="_locale" id="locale">
-                <option value="">--</option>
-                {% for locale in ['en', 'fr', 'es', 'de'] %}
-                <option value="{{ locale }}">{{ locale | language_name }}</option>
-                {% endfor %}
-            </select>
-            <button aria-label="Sélectionner">✅</button>
-        </form>
-
-        <output>
-            {{ app.locale | language_name }}
-        </output>
-    </div>
+    <twig:LocalSelector />
 </div>
 {% endblock %}
