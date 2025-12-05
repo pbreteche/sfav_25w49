@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Calendar\Calendar;
+use App\Calendar\DayOffManager;
 use App\Entity\Post;
 use App\Event\MyCustomEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,7 @@ final class DefaultController extends AbstractController
         TagAwareCacheInterface $cache,
         HttpClientInterface $httpClient,
         Calendar $calendar,
+        DayOffManager $dayOffManager,
     ): Response {
         $forceRecompute = $request->query->has('force');
         // ajouter des éléments pour garantir l'unicité de l'identifiant de l'élément de cache
