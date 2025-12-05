@@ -23,6 +23,11 @@ readonly class DateRange
         return $this->to;
     }
 
+    public function getDays(): int
+    {
+        return $this->to->diff($this->from)->days + 1;
+    }
+
     public function intersect(DateRange $dateRange): ?DateRange
     {
         try {

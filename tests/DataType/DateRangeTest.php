@@ -3,11 +3,12 @@
 namespace App\Tests\DataType;
 
 use App\DataType\DateRange;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class DateRangeTest extends TestCase
 {
-    public function testIntersect()
+    public function testIntersect(): void
     {
         $dateRange1 = new DateRange(
             new \DateTimeImmutable('2025-12-01'),
@@ -42,5 +43,27 @@ class DateRangeTest extends TestCase
         $intersection = $dateRange1->intersect($dateRange2);
 
         $this->assertNull($intersection);
+    }
+
+    #[DataProvider('provideGetDays')]
+    public function testGetDays($from, $to, $expected): void
+    {
+        $dateRange = new DateRange(
+            new \DateTimeImmutable($from),
+            new \DateTimeImmutable($to),
+        );
+
+        $days = $dateRange->getDays();
+
+        $this->assertIsInt($days);
+        $this->assertSame($expected, $days);
+    }
+
+    public static function provideGetDays(): array
+    {
+        return [
+            ['2025-12-01', '2025-12-05', 5],
+            ['2025-11-01', '2025-11-30', 30],
+        ];
     }
 }
