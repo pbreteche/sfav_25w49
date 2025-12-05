@@ -6,9 +6,14 @@ use App\DataType\DateRange;
 
 class Calendar
 {
+    public function __construct(
+        private array $daysOff,
+    ) {
+    }
+
     public function isWorkingDay(\DateTimeInterface $date): bool
     {
-        return 6 > (int) $date->format('N');
+        return !in_array((int) $date->format('N'), $this->daysOff);
     }
 
     public function countWorkingDays(DateRange $range): int

@@ -4,15 +4,17 @@ namespace App\Tests\Calendar;
 
 use App\Calendar\Calendar;
 use App\DataType\DateRange;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class CalendarTest extends TestCase
+class CalendarTest extends KernelTestCase
 {
     private static ?Calendar $calendar;
 
     public static function setUpBeforeClass(): void
     {
-        self::$calendar = new Calendar();
+        self::bootKernel();
+        $container = static::getContainer();
+        self::$calendar = $container->get(Calendar::class);
     }
 
     public function testIsWorkingDay(): void

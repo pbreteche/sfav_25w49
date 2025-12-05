@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Calendar\Calendar;
 use App\Entity\Post;
 use App\Event\MyCustomEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +36,7 @@ final class DefaultController extends AbstractController
         Request $request,
         TagAwareCacheInterface $cache,
         HttpClientInterface $httpClient,
+        Calendar $calendar,
     ): Response {
         $forceRecompute = $request->query->has('force');
         // ajouter des éléments pour garantir l'unicité de l'identifiant de l'élément de cache
