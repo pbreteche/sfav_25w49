@@ -29,6 +29,12 @@ final class PostForm extends AbstractController
     }
 
     #[LiveAction]
+    public function publishNextWeek(): void
+    {
+        $this->formValues['publishedAt'] = (new \DateTimeImmutable('+1 week'))->format('c');
+    }
+
+    #[LiveAction]
     public function save(
         EntityManagerInterface $entityManager,
     ): Response {
