@@ -4,7 +4,10 @@ namespace App\Entity;
 
 use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\ObjectMapper\Attribute\Map;
 
+
+#[Map(target: \App\Dto\Tag::class)]
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
