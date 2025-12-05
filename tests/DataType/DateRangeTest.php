@@ -8,6 +8,15 @@ use PHPUnit\Framework\TestCase;
 
 class DateRangeTest extends TestCase
 {
+    public function testInvalid(): void
+    {
+        $this->expectException(\LogicException::class);
+        new DateRange(
+            new \DateTimeImmutable('2025-12-05'),
+            new \DateTimeImmutable('2025-12-01'),
+        );
+    }
+
     public function testIntersect(): void
     {
         $dateRange1 = new DateRange(
