@@ -39,4 +39,11 @@ readonly class DateRange
             return null;
         }
     }
+
+    public function each(): \Generator
+    {
+        for($cur = $this->from; $cur <= $this->to; $cur = $cur->modify('+1 day')) {
+            yield $cur;
+        }
+    }
 }
